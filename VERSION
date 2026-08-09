@@ -1,0 +1,8 @@
+CrewWatch Safety Inspection System
+Version: 1.0.0-production
+Program: Samsung Innovation Campus — AI & Machine Learning Course (Capstone Project)
+Build Date: 2026-08-07
+YOLO Model: YOLOv8 (models/best.pt)
+Supported Platforms: macOS, Windows, Linux
+Python Version: 3.10+
+

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrewWatch | AI-Powered Workforce Safety Monitoring</title>
+    <meta name="description" content="CrewWatch is an AI-powered workforce safety monitoring platform that uses computer vision to detect PPE compliance in real time across images, videos, webcams, and CCTV/RTSP streams.">
+    <meta name="application-name" content="CrewWatch">
+    <meta property="og:title" content="CrewWatch | AI-Powered Workforce Safety Monitoring">
+    <meta property="og:description" content="CrewWatch is an AI-powered workforce safety monitoring platform that uses computer vision to detect PPE compliance in real time across images, videos, webcams, and CCTV/RTSP streams.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-vest-patches brand-icon"></i>
+                <div class="brand-text">
+                    <span class="brand-title">CrewWatch</span>
+                    <span class="brand-subtitle">AI-Powered Workforce Safety Monitoring</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">INSPECTION WORKFLOWS</div>
+                <a class="nav-link active" href="#" data-tab="tab-image">
+                    <i class="fa-solid fa-camera"></i> Image Inspection
+                </a>
+                <a class="nav-link" href="#" data-tab="tab-video">
+                    <i class="fa-solid fa-video"></i> Video Telemetry
+                </a>
+                <a class="nav-link" href="#" data-tab="tab-webcam">
+                    <i class="fa-solid fa-webcam"></i> Live Webcam Feed
+                </a>
+                <a class="nav-link" href="#" data-tab="tab-rtsp">
+                    <i class="fa-solid fa-network-wired"></i> RTSP CCTV Stream
+                </a>
+                
+                <div class="nav-section-title mt-4">ANALYTICS</div>
+                <a class="nav-link" href="/dashboard">
+                    <i class="fa-solid fa-chart-column"></i> Safety Dashboard
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-info">
+                    <i class="fa-solid fa-shield-check text-warning me-1"></i> YOLOv8 Engine Active
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Workspace -->
+        <main class="main-content">
+            
+            <!-- HERO SECTION -->
+            <section class="hero-section mb-4">
+                <div class="row align-items-center g-3">
+                    <div class="col-lg-7">
+                        <div class="hero-badge-pill mb-2">
+                            <span class="status-indicator-dot"></span>
+                            <span>SYSTEM ONLINE • YOLOv8 ACTIVE</span>
+                        </div>
+                        <h1 class="hero-title mb-1">CrewWatch</h1>
+                        <h4 class="fw-semibold text-navy mb-2 fs-5">AI-Powered Workforce Safety Monitoring</h4>
+                        <p class="hero-description mb-3">CrewWatch is an AI-powered workforce safety monitoring platform that uses computer vision to detect PPE compliance in real time across images, videos, webcams, and CCTV/RTSP streams. It helps improve workplace safety through intelligent monitoring, automated inspection reports, and live compliance analytics.</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-yellow px-4 py-2" onclick="scrollToActiveInspection()"><i class="fa-solid fa-play me-2"></i>Start Inspection</button>
+                            <a href="/dashboard" class="btn btn-outline-navy px-4 py-2"><i class="fa-solid fa-chart-column me-2"></i>View Dashboard</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-center">
+                        <div class="hero-image-wrapper">
+                            <img src="{{ url_for('static', filename='img/hero_construction_safety.png') }}" alt="CrewWatch AI Workforce Safety Monitoring" class="hero-img shadow">
+                            <div class="hero-stat-overlay">
+                                <i class="fa-solid fa-shield-check text-success fs-5"></i>
+                                <div class="text-start">
+                                    <span class="d-block fw-bold text-dark small">99.4%</span>
+                                    <span class="small text-muted" style="font-size:0.7rem;">Compliance Engine</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 1: DESIGNED FOR CONSTRUCTION ENVIRONMENTS -->
+            <section class="use-cases-section mb-4">
+                <div class="text-center mb-3">
+                    <h4 class="fw-bold text-navy mb-1">Designed for Construction Environments</h4>
+                    <p class="text-secondary small mb-0">Built to enhance worker safety across diverse construction and industrial environments using AI-powered PPE detection.</p>
+                </div>
+                <div class="row g-3">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="env-card h-100">
+                            <div class="env-icon-wrapper" style="background:#EFF6FF; color:#1E3A8A;"><i class="fa-solid fa-house-chimney-crack"></i></div>
+                            <h6 class="env-card-title">Residential Construction</h6>
+                            <p class="env-card-desc">Monitor PPE compliance on housing and apartment construction sites.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="env-card h-100">
+                            <div class="env-icon-wrapper" style="background:#FEF3C7; color:#D97706;"><i class="fa-solid fa-city"></i></div>
+                            <h6 class="env-card-title">Commercial Buildings</h6>
+                            <p class="env-card-desc">Improve worker safety during commercial building development.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="env-card h-100">
+                            <div class="env-icon-wrapper" style="background:#DCFCE7; color:#16A34A;"><i class="fa-solid fa-bridge"></i></div>
+                            <h6 class="env-card-title">Bridge & Infrastructure Projects</h6>
+                            <p class="env-card-desc">Monitor PPE usage on bridges, tunnels and infrastructure projects.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="env-card h-100">
+                            <div class="env-icon-wrapper" style="background:#F3E8FF; color:#9333EA;"><i class="fa-solid fa-industry"></i></div>
+                            <h6 class="env-card-title">Industrial Manufacturing Plants</h6>
+                            <p class="env-card-desc">Support industrial safety inspections and PPE compliance monitoring.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="env-card h-100">
+                            <div class="env-icon-wrapper" style="background:#FFF7ED; color:#EA580C;"><i class="fa-solid fa-road"></i></div>
+                            <h6 class="env-card-title">Highway & Road Construction</h6>
+                            <p class="env-card-desc">Track worker protection during road and highway construction.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="env-card h-100">
+                            <div class="env-icon-wrapper" style="background:#FEF2F2; color:#DC2626;"><i class="fa-solid fa-hill-rockslide"></i></div>
+                            <h6 class="env-card-title">Mining & Heavy Equipment Sites</h6>
+                            <p class="env-card-desc">Enhance PPE compliance in high-risk excavation and mining operations.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="env-card h-100">
+                            <div class="env-icon-wrapper" style="background:#FEF9C3; color:#CA8A04;"><i class="fa-solid fa-bolt"></i></div>
+                            <h6 class="env-card-title">Energy & Utility Projects</h6>
+                            <p class="env-card-desc">Assist worker safety monitoring across utility and energy infrastructure.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="env-card h-100">
+                            <div class="env-icon-wrapper" style="background:#E0F2FE; color:#0284C7;"><i class="fa-solid fa-building-circle-check"></i></div>
+                            <h6 class="env-card-title">High-Rise & Mega Projects</h6>
+                            <p class="env-card-desc">Provide scalable AI monitoring for large multi-floor construction sites.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: WHY CHOOSE CREWWATCH -->
+            <section class="features-section mb-4">
+                <div class="text-center mb-3">
+                    <h4 class="fw-bold text-navy mb-1">Why Choose CrewWatch</h4>
+                    <p class="text-secondary small mb-0">Comprehensive computer vision platform engineered for industrial safety compliance.</p>
+                </div>
+                <div class="row g-3">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="feature-card h-100">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                                <h6 class="feature-card-title mb-0">Real-Time PPE Detection</h6>
+                            </div>
+                            <p class="feature-card-desc mb-0">Instant visual feedback and bounding box detections for hard hats, safety vests, gloves, and boots.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="feature-card h-100">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-brain text-primary fs-5"></i>
+                                <h6 class="feature-card-title mb-0">YOLOv8 Powered Computer Vision</h6>
+                            </div>
+                            <p class="feature-card-desc mb-0">State-of-the-art deep learning model optimized for accuracy and fast inference.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="feature-card h-100">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-camera text-info fs-5"></i>
+                                <h6 class="feature-card-title mb-0">Image Inspection</h6>
+                            </div>
+                            <p class="feature-card-desc mb-0">Batch and high-resolution site photo auditing with instant compliance scorecards.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="feature-card h-100">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-film text-warning fs-5"></i>
+                                <h6 class="feature-card-title mb-0">Video Analytics</h6>
+                            </div>
+                            <p class="feature-card-desc mb-0">Automated frame-by-frame video telemetry processing with H.264 browser playback.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="feature-card h-100">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-webcam text-success fs-5"></i>
+                                <h6 class="feature-card-title mb-0">Live Webcam Monitoring</h6>
+                            </div>
+                            <p class="feature-card-desc mb-0">Direct local camera feed integration for real-time live site auditing.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="feature-card h-100">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-network-wired text-primary fs-5"></i>
+                                <h6 class="feature-card-title mb-0">RTSP / CCTV Support</h6>
+                            </div>
+                            <p class="feature-card-desc mb-0">Enterprise IP camera and CCTV network stream connection capabilities.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="feature-card h-100">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-triangle-exclamation text-danger fs-5"></i>
+                                <h6 class="feature-card-title mb-0">Automated Safety Alerts</h6>
+                            </div>
+                            <p class="feature-card-desc mb-0">Immediate categorization of critical and warning safety violations.</p>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="feature-card h-100">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fa-solid fa-file-pdf text-danger fs-5"></i>
+                                <h6 class="feature-card-title mb-0">Professional PDF Reports</h6>
+                            </div>
+                            <p class="feature-card-desc mb-0">One-click generation of official PDF compliance audit certificates.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WORKFLOW 1: IMAGE INSPECTION -->
+            <section id="tab-image" class="content-tab active">
+                <div class="premium-card mb-4">
+                    <div class="card-header-clean">
+                        <h5 class="card-header-title"><i class="fa-solid fa-cloud-arrow-up text-primary"></i> Upload Site Inspection Photo</h5>
+                    </div>
+                    <div class="card-body p-3">
+                        <form id="form-upload-image" enctype="multipart/form-data">
+                            <div class="upload-dropzone" id="image-dropzone" onclick="document.getElementById('image-file-input').click()">
+                                <div class="upload-icon-circle">
+                                    <i class="fa-solid fa-file-image"></i>
+                                </div>
+                                <div class="upload-title">Click or Drag & Drop Site Photo Here</div>
+                                <div class="upload-subtitle">Supports high-resolution JPG, PNG, WEBP site inspection photos</div>
+                                <input type="file" id="image-file-input" name="image" accept="image/*" class="d-none" onchange="handleImageFileSelected(this)">
+                                <div><span id="image-file-name" class="file-name-badge d-none"></span></div>
+                            </div>
+                            <button type="submit" class="btn btn-yellow w-100 mt-3 py-2 fs-6"><i class="fa-solid fa-microchip me-2"></i> Execute AI PPE Audit</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Inspection Results Container -->
+                <div id="image-results-container" class="d-none">
+                    <!-- Image Comparison Row (Original & Annotated) -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-lg-6">
+                            <div class="premium-card h-100">
+                                <div class="card-header-clean">
+                                    <h6 class="card-header-title text-secondary"><i class="fa-solid fa-image me-2"></i> Original Media</h6>
+                                </div>
+                                <div class="card-body p-2 text-center">
+                                    <img id="img-original" src="" class="img-fluid rounded-3 preview-image" alt="Original Image">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="premium-card h-100">
+                                <div class="card-header-clean">
+                                    <h6 class="card-header-title text-primary"><i class="fa-solid fa-wand-magic-sparkles me-2"></i> Annotated Media</h6>
+                                </div>
+                                <div class="card-body p-2 text-center">
+                                    <img id="img-annotated" src="" class="img-fluid rounded-3 preview-image" alt="Annotated Image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inspection Summary: KPI Cards Grid -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-navy mb-2"><i class="fa-solid fa-chart-pie me-2"></i> Inspection Summary</h6>
+                        <div class="kpi-grid" id="image-kpi-grid"></div>
+                    </div>
+
+                    <!-- Compliance Cards & Alerts Two-Column Row -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="premium-card h-100">
+                                <div class="card-header-clean">
+                                    <h6 class="card-header-title text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i> Safety Violation Alerts</h6>
+                                </div>
+                                <div class="card-body p-3" id="image-alerts-container"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="premium-card h-100">
+                                <div class="card-header-clean">
+                                    <h6 class="card-header-title text-navy"><i class="fa-solid fa-list-check me-2"></i> Compliance Cards (Worker Matrix)</h6>
+                                </div>
+                                <div class="card-body p-3" id="image-workers-container"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Download Buttons Bar -->
+                    <div class="premium-card mb-4 p-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div>
+                                <h6 class="fw-bold text-success mb-1"><i class="fa-solid fa-circle-check me-2"></i> Audit Inspection Complete & Verified</h6>
+                                <span class="small text-muted">Generated annotated media asset & PDF compliance report</span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a id="btn-download-image-asset" href="#" class="btn btn-outline-navy px-3 py-2"><i class="fa-solid fa-download me-1"></i> Download Image</a>
+                                <a id="btn-download-image-pdf" href="#" class="btn btn-navy px-3 py-2"><i class="fa-solid fa-file-pdf me-1"></i> Download PDF Report</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WORKFLOW 2: VIDEO PROCESSING -->
+            <section id="tab-video" class="content-tab">
+                <div class="premium-card mb-4">
+                    <div class="card-header-clean">
+                        <h5 class="card-header-title"><i class="fa-solid fa-film text-primary"></i> Upload Site Video Recording</h5>
+                    </div>
+                    <div class="card-body p-3">
+                        <form id="form-upload-video" enctype="multipart/form-data">
+                            <div class="upload-dropzone" id="video-dropzone" onclick="document.getElementById('video-file-input').click()">
+                                <div class="upload-icon-circle">
+                                    <i class="fa-solid fa-video"></i>
+                                </div>
+                                <div class="upload-title">Click or Drag & Drop Site Video File</div>
+                                <div class="upload-subtitle">Supports MP4, AVI, MOV footage</div>
+                                <input type="file" id="video-file-input" name="video" accept="video/*" class="d-none" onchange="handleVideoFileSelected(this)">
+                                <div><span id="video-file-name" class="file-name-badge d-none"></span></div>
+                            </div>
+                            <button type="submit" class="btn btn-yellow w-100 mt-3 py-2 fs-6" id="btn-process-video"><i class="fa-solid fa-play me-2"></i> Execute Video Telemetry</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="video-processing-spinner" class="text-center py-4 d-none">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
+                    <h6 class="mt-3 fw-bold text-navy">Processing video telemetry with YOLOv8 & FFmpeg...</h6>
+                    <p class="text-muted small mb-0">Extracting bounding boxes, computing worker compliance matrix, and rendering playable H.264 stream.</p>
+                </div>
+
+                <div id="video-results-container" class="d-none">
+                    <!-- Video Comparison Row -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-lg-6">
+                            <div class="premium-card h-100">
+                                <div class="card-header-clean">
+                                    <h6 class="card-header-title text-secondary"><i class="fa-solid fa-video me-2"></i> Original Video</h6>
+                                </div>
+                                <div class="card-body p-2 text-center">
+                                    <video id="video-player-original" controls class="w-100 rounded-3 max-h-450 shadow-sm" preload="metadata"></video>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="premium-card h-100">
+                                <div class="card-header-clean">
+                                    <h6 class="card-header-title text-success"><i class="fa-solid fa-film me-2"></i> Annotated Video (H.264 MP4)</h6>
+                                </div>
+                                <div class="card-body p-2 text-center">
+                                    <video id="video-player-annotated" controls class="w-100 rounded-3 max-h-450 shadow-sm" preload="auto"></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inspection Summary: Video KPI Cards Grid -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-navy mb-2"><i class="fa-solid fa-chart-pie me-2"></i> Inspection Summary</h6>
+                        <div class="kpi-grid" id="video-kpi-grid"></div>
+                    </div>
+
+                    <!-- Telemetry Violation Alerts Feed -->
+                    <div class="premium-card mb-4">
+                        <div class="card-header-clean">
+                            <h6 class="card-header-title text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i> Telemetry Violation Alerts</h6>
+                        </div>
+                        <div class="card-body p-3" id="video-alerts-container"></div>
+                    </div>
+
+                    <!-- Video Downloads Bar -->
+                    <div class="premium-card mb-4 p-3">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div>
+                                <h6 class="fw-bold text-success mb-1"><i class="fa-solid fa-circle-check me-2"></i> Video Telemetry Report Ready</h6>
+                                <span class="small text-muted">Download compiled video file and official PDF audit report</span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a id="btn-download-video-asset" href="#" class="btn btn-outline-navy px-3 py-2"><i class="fa-solid fa-video me-1"></i> Download Video</a>
+                                <a id="btn-download-video-pdf" href="#" class="btn btn-navy px-3 py-2"><i class="fa-solid fa-file-pdf me-1"></i> Download PDF Report</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WORKFLOW 3: LIVE WEBCAM STREAM -->
+            <section id="tab-webcam" class="content-tab">
+                <div class="premium-card mb-4">
+                    <div class="card-header-clean d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <h5 class="card-header-title"><i class="fa-solid fa-camera text-success"></i> Real-Time Local Webcam PPE Monitor</h5>
+                        <div class="d-flex gap-2 align-items-center">
+                            <label class="small text-muted me-1">Device Index:</label>
+                            <input type="number" id="webcam-index" class="form-control custom-input" value="0" min="0" max="5" style="width: 70px;">
+                            <button class="btn btn-success fw-bold px-3 py-1" onclick="startWebcamStream()"><i class="fa-solid fa-play me-1"></i> Start Feed</button>
+                            <button class="btn btn-outline-danger fw-bold px-3 py-1" onclick="stopWebcamStream()"><i class="fa-solid fa-stop me-1"></i> Stop</button>
+                            <button class="btn btn-yellow px-3 py-1" onclick="captureStreamFrame('Webcam')"><i class="fa-solid fa-camera-retro me-1"></i> Capture & Report</button>
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="text-center bg-light rounded-3 p-3 border">
+                            <img id="webcam-stream-img" src="" class="img-fluid rounded-3 stream-view d-none" alt="Live Webcam Feed">
+                            <div id="webcam-placeholder" class="py-4 text-muted">
+                                <i class="fa-solid fa-video-slash display-5 mb-2 d-block text-secondary"></i>
+                                <h6 class="fw-bold text-navy mb-1">Webcam Stream Offline</h6>
+                                <p class="small text-muted mb-0">Click 'Start Feed' above to initiate real-time AI PPE auditing from connected camera.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stream Frame Capture Output Container -->
+                <div id="webcam-capture-container" class="d-none">
+                    <div class="premium-card mb-4">
+                        <div class="card-header-clean d-flex justify-content-between align-items-center">
+                            <h6 class="card-header-title text-navy"><i class="fa-solid fa-camera-retro me-2"></i> Captured Frame & PDF Audit Report</h6>
+                            <div class="d-flex gap-2">
+                                <a id="btn-download-webcam-image" href="#" class="btn btn-sm btn-outline-navy"><i class="fa-solid fa-download me-1"></i> Image</a>
+                                <a id="btn-download-webcam-pdf" href="#" class="btn btn-sm btn-navy"><i class="fa-solid fa-file-pdf me-1"></i> PDF Report</a>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-6 text-center">
+                                    <img id="webcam-captured-img" src="" class="img-fluid rounded-3 max-h-350 shadow-sm" alt="Captured Frame">
+                                </div>
+                                <div class="col-md-6" id="webcam-captured-details"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WORKFLOW 4: RTSP / IP CCTV STREAM -->
+            <section id="tab-rtsp" class="content-tab">
+                <div class="premium-card mb-4">
+                    <div class="card-header-clean">
+                        <h5 class="card-header-title"><i class="fa-solid fa-network-wired text-info"></i> Enterprise RTSP / IP CCTV Camera Stream</h5>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-7">
+                                <label class="form-label small fw-bold text-navy mb-1">RTSP Camera Endpoint URL</label>
+                                <input type="text" id="rtsp-url-input" class="form-control custom-input" value="rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny.mp4" placeholder="rtsp://username:password@192.168.1.100:554/stream">
+                            </div>
+                            <div class="col-md-5 d-flex gap-2 align-items-end">
+                                <button class="btn btn-success fw-bold flex-grow-1 py-2" onclick="startRtspStream()"><i class="fa-solid fa-plug me-1"></i> Connect</button>
+                                <button class="btn btn-outline-danger fw-bold py-2 px-3" onclick="stopRtspStream()"><i class="fa-solid fa-stop"></i></button>
+                                <button class="btn btn-yellow py-2 px-3" onclick="captureStreamFrame('RTSP')"><i class="fa-solid fa-camera-retro me-1"></i> Capture & Report</button>
+                            </div>
+                        </div>
+                        <div class="text-center bg-light rounded-3 p-3 border">
+                            <img id="rtsp-stream-img" src="" class="img-fluid rounded-3 stream-view d-none" alt="RTSP Stream Feed">
+                            <div id="rtsp-placeholder" class="py-4 text-muted">
+                                <i class="fa-solid fa-tower-broadcast display-5 mb-2 d-block text-secondary"></i>
+                                <h6 class="fw-bold text-navy mb-1">RTSP Stream Disconnected</h6>
+                                <p class="small text-muted mb-0">Enter RTSP camera endpoint URL above and click Connect to start live stream inference.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RTSP Frame Capture Output Container -->
+                <div id="rtsp-capture-container" class="d-none">
+                    <div class="premium-card mb-4">
+                        <div class="card-header-clean d-flex justify-content-between align-items-center">
+                            <h6 class="card-header-title text-navy"><i class="fa-solid fa-camera-retro me-2"></i> Captured Frame & PDF Audit Report</h6>
+                            <div class="d-flex gap-2">
+                                <a id="btn-download-rtsp-image" href="#" class="btn btn-sm btn-outline-navy"><i class="fa-solid fa-download me-1"></i> Image</a>
+                                <a id="btn-download-rtsp-pdf" href="#" class="btn btn-sm btn-navy"><i class="fa-solid fa-file-pdf me-1"></i> PDF Report</a>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-6 text-center">
+                                    <img id="rtsp-captured-img" src="" class="img-fluid rounded-3 max-h-350 shadow-sm" alt="Captured Frame">
+                                </div>
+                                <div class="col-md-6" id="rtsp-captured-details"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="footer mt-5 pt-4 pb-3 border-top text-center text-muted small">
+                <div class="fw-bold text-navy mb-1 fs-6"><i class="fa-solid fa-vest-patches text-warning me-2"></i>CrewWatch</div>
+                <p class="mb-1 text-dark fw-medium">AI-Powered Workforce Safety Monitoring</p>
+                <p class="mb-1 text-secondary" style="font-size: 0.8rem;">Built with: YOLOv8 • Flask • OpenCV • Bootstrap • ReportLab</p>
+                <div class="mt-2 inline-block badge bg-light text-secondary border px-3 py-2">
+                    Academic Capstone Project • Samsung Innovation Campus (SIC)
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Application JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
