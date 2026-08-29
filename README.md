@@ -24,6 +24,19 @@ This project was developed as a capstone project for the Samsung Innovation Camp
 - ReportLab
 - HTML, CSS, JavaScript & Plotly.js
 
+## Model
+
+The project uses a trained YOLOv8 PPE detection model stored in `models/best.pt`. The model identifies workers and detects safety equipment to calculate overall site and worker compliance scores.
+
+## Demo / Presentation
+
+https://youtu.be/jHLDcshnuwg?si=5-qn32G-KhEJh7Hd 
+
+## Academic Context
+
+Developed as a capstone project for the Samsung Innovation Campus (SIC) AI & Machine Learning Course.
+
+
 ## Project Structure
 
 ```
@@ -87,17 +100,6 @@ python app.py
 
 5. Open your web browser and navigate to `http://localhost:5001`.
 
-## Model
-
-The project uses a trained YOLOv8 PPE detection model stored in `models/best.pt`. The model identifies workers and detects safety equipment to calculate overall site and worker compliance scores.
-
-## Demo / Presentation
-
-https://youtu.be/jHLDcshnuwg?si=5-qn32G-KhEJh7Hd 
-
-## Academic Context
-
-Developed as a capstone project for the Samsung Innovation Campus (SIC) AI & Machine Learning Course.
 
 ## License
 
