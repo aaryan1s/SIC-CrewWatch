@@ -93,8 +93,6 @@ The project uses a trained YOLOv8 PPE detection model stored in `models/best.pt`
 
 ## Demo / Presentation
 
-[YouTube Video Link]
-
 https://youtu.be/jHLDcshnuwg?si=5-qn32G-KhEJh7Hd 
 
 ## Academic Context
